@@ -3,25 +3,25 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <title>Panels</title>
-<script type="text/javascript" src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+<script type="text/javascript" src="jquery-1.10.2.min.js"></script>
 <script type="text/javascript">
 $(document).ready(function(){
-	
+	var i = 0;
 	for(i=0;i<=7;i++){
-		frames = $('iframe').length;
-		url = localStorage.getItem("iframe"+(i + 1));
-		if(url != null){
+		var frames = $('iframe').length;
+		var url = localStorage.getItem("iframe"+(i + 1));
+		if(url !== null){
 			$('body').append('<iframe src="'+ url +'" scrolling="no" class="iframe'+(i + 1)+'"></iframe>');
 			if(frames == '0'){
 				$('form p').append('<strong>Click to refresh:</strong> <span id="iframe'+(i + 1)+'">'+url+'</span>');
 			}else{
 				$('form p').append('<span id="iframe'+(i + 1)+'">'+url+'</span>');	
 			}
-		};
-	};
+		}
+	}
 	
 	$('iframe').on('click', function(){
-		frameNum = $(this).attr('class');
+		var frameNum = $(this).attr('class');
 		localStorage.removeItem(frameNum);
 		$('.'+frameNum).fadeOut().remove();
 		$('#'+frameNum).fadeOut().remove();
@@ -35,25 +35,25 @@ $(document).ready(function(){
 	});
 	
 	$('form p span').on('click',function(){
-		frameNum = $(this).attr('id');
-		URL = $(this).text();
+		var frameNum = $(this).attr('id');
+		var URL = $(this).text();
 		$('iframe.'+frameNum).attr({'src':URL});
 	});
 	
 	$('iframe a').on('click',function(){
-		URL = $(this).attr('href');
+		var URL = $(this).attr('href');
 		console.log(URL);
 		$('.iframe1').attr({'src':URL});
 	});
 	
 	$('button[type="submit"]').on('click',function(e){
 		e.preventDefault();
-		url = $('input').val();
+		var url = $('input').val();
 		
-		for(i=0;i<=7;i++){
-			frames = $('iframe').length;
-			pasturl = localStorage.getItem("iframe"+(i + 1));
-			if(pasturl == null){
+		for(var i=0;i<=7;i++){
+			var frames = $('iframe').length;
+			var pasturl = localStorage.getItem("iframe"+(i + 1));
+			if(pasturl === null){
 				$('body').append('<iframe src="'+ url +'" scrolling="no" class="iframe'+(i + 1)+'"></iframe>');
 				localStorage.setItem('iframe'+(i + 1),url);
 				$('input').val();
@@ -63,8 +63,8 @@ $(document).ready(function(){
 					$('form p').append('<span id="iframe'+(i + 1)+'">'+url+'</span>');	
 				}
 				return;
-			};
-		};		
+			}
+		}		
 	});
 });
 </script>
@@ -75,8 +75,8 @@ html {
 }
 h1 {
 	color: #ccc;
-	margin: 0px;
-	padding: 0px;
+	margin: 0;
+	padding: 0;
 	font-family:"Trajan Pro", Georgia, "Times New Roman", Times, serif;
 	text-align: center;
 	border-bottom: 1px dashed #ccc;
@@ -106,12 +106,11 @@ iframe {
 	position: absolute;
 	z-index: 1;
 	display: inline-block;
-	float: left;
 	overflow:scroll;
 	border-radius: 2%;
 	background-color: #fff;
 	text-align: center;
-	box-shadow: 0px 0px 1em #222;
+	box-shadow: 0 0 1em #222;
 	transform:scale(0.2);
 	-ms-transform:scale(0.2); /* IE 9 */
 	-o-transform:scale(0.2); /* Opera */
