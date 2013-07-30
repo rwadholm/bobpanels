@@ -1,0 +1,207 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Panels</title>
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+	
+	for(i=0;i<=7;i++){
+		frames = $('iframe').length;
+		url = localStorage.getItem("iframe"+(i + 1));
+		if(url != null){
+			$('body').append('<iframe src="'+ url +'" scrolling="no" class="iframe'+(i + 1)+'"></iframe>');
+			if(frames == '0'){
+				$('form p').append('<strong>Click to refresh:</strong> <span id="iframe'+(i + 1)+'">'+url+'</span>');
+			}else{
+				$('form p').append('<span id="iframe'+(i + 1)+'">'+url+'</span>');	
+			}
+		};
+	};
+	
+	$('iframe').on('click', function(){
+		frameNum = $(this).attr('class');
+		localStorage.removeItem(frameNum);
+		$('.'+frameNum).fadeOut().remove();
+		$('#'+frameNum).fadeOut().remove();
+	});
+	
+	$('iframe').on('mouseover', function(){
+		$(this).attr({'scrolling':'yes'});
+	});
+	$('iframe').on('mouseout', function(){
+		$(this).attr({'scrolling':'no'});
+	});
+	
+	$('form p span').on('click',function(){
+		frameNum = $(this).attr('id');
+		URL = $(this).text();
+		$('iframe.'+frameNum).attr({'src':URL});
+	});
+	
+	$('iframe a').on('click',function(){
+		URL = $(this).attr('href');
+		console.log(URL);
+		$('.iframe1').attr({'src':URL});
+	});
+	
+	$('button[type="submit"]').on('click',function(e){
+		e.preventDefault();
+		url = $('input').val();
+		
+		for(i=0;i<=7;i++){
+			frames = $('iframe').length;
+			pasturl = localStorage.getItem("iframe"+(i + 1));
+			if(pasturl == null){
+				$('body').append('<iframe src="'+ url +'" scrolling="no" class="iframe'+(i + 1)+'"></iframe>');
+				localStorage.setItem('iframe'+(i + 1),url);
+				$('input').val();
+				if(frames == '0'){
+					$('form p').append('<strong>Click to refresh:</strong> <span id="iframe'+(i + 1)+'">'+url+'</span>');
+				}else{
+					$('form p').append('<span id="iframe'+(i + 1)+'">'+url+'</span>');	
+				}
+				return;
+			};
+		};		
+	});
+});
+</script>
+<style> 
+html {
+	background: #efefef;
+	overflow: hidden;	
+}
+h1 {
+	color: #ccc;
+	margin: 0px;
+	padding: 0px;
+	font-family:"Trajan Pro", Georgia, "Times New Roman", Times, serif;
+	text-align: center;
+	border-bottom: 1px dashed #ccc;
+	padding-top: 0.6em;
+	padding-bottom: 0.7em;
+	width: 98%;
+	position: absolute;
+}
+p span {
+	cursor: pointer;
+	display: inline-block;	
+	border-radius: 10px;
+	padding: 2px 6px;
+	margin-right: 10px;
+	background: #dfdfdf;
+	transition: all ease 0.3s;
+}
+p span:hover {	
+	background: #ccc; 
+}
+iframe {
+	opacity: 0.9;
+	width: 100%;
+	height: 98%;
+	border: none;
+	border-top: 5px solid #069;
+	position: absolute;
+	z-index: 1;
+	display: inline-block;
+	float: left;
+	overflow:scroll;
+	border-radius: 2%;
+	background-color: #fff;
+	text-align: center;
+	box-shadow: 0px 0px 1em #222;
+	transform:scale(0.2);
+	-ms-transform:scale(0.2); /* IE 9 */
+	-o-transform:scale(0.2); /* Opera */
+	-webkit-transform:scale(0.2); /* Safari and Chrome */	
+	transition: -webkit-transform ease 0.5s, left 0.5s, top 0.5s;
+}
+body iframe:hover{
+	border-radius: 0%;
+	left: 0em;
+	top: 0em;
+	z-index: 999;
+	transform:scale(1);
+	-ms-transform:scale(1); /* IE 9 */
+	-o-transform:scale(1); /* Opera */
+	-webkit-transform:scale(1); /* Safari and Chrome */   
+}
+.iframe1 {
+	left: -20em;
+}
+.iframe2 {
+	left: -6em;	
+}
+.iframe3 {
+	left: 8em;	
+}
+.iframe4 {
+	left: 22em;	
+}
+.iframe5 {
+	left: -20em;
+	top: 14em;	
+}
+.iframe6 {
+	left: -6em;
+	top: 14em;	
+}
+.iframe7 {
+	left: 8em;
+	top: 14em;	
+}
+.iframe8 {
+	left: 22em;
+	top: 14em;	
+}
+a {
+	color: #000;
+	text-decoration:none;	
+}
+form {
+
+	position:fixed;
+	top: 100px;
+	margin: 0px auto;
+	z-index:2; 
+	opacity: 0.6;
+	transition: all ease 0.5s;	
+}
+form:hover {
+	opacity: 1.0;	
+}
+input {
+	border: 2px solid #ccc;
+	border-radius: 4px;	
+	padding: 6px;
+	min-width: 200px;
+	width: 10%;
+}
+button {
+	background: #444;
+	color: #fff;
+	font-weight: bold;
+	font-size: 21px;
+	border: 2px solid #ccc;	
+	border-radius: 6px;
+	padding: 2px 6px;
+	position: relative;
+	top: 2px;
+	cursor: pointer;
+	transition: all ease 0.3s;
+}
+button:hover {
+	background: #111;
+}	
+</style>
+</head>
+<body>
+
+<form><input type="url" placeholder="URL" /><button type="submit">+</button><p></p></form>
+
+<h1>Bob&rsquo;s Panels Experiment</h1>
+
+</body>
+</html>
